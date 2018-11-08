@@ -8,7 +8,11 @@
             <a class="nav-item nav-link " href="#">Accueil</a>
             <a class="nav-item nav-link" href="#">TODO</a>
             <a class="nav-item nav-link" href="#">TODO</a>
-            <a class="nav-item nav-link" href="#">TODO: Partie admin dans la navbar</a>
+            {% if not app.user %}
+                <a class="nav-item nav-link" href="{{ path('Security.login') }}">Connexion</a>
+            {% else %}
+                <a class="nav-item nav-link" href="{{ path('Security.logout') }}">Deconnexion</a>
+            {% endif %}
         </div>
     </div>
 </nav>

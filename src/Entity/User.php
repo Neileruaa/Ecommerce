@@ -5,11 +5,18 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *  fields={"email"},
+ *  message="L'email que vous avez indiqué est déjà utilisé ! "
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -25,11 +32,18 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire au minimum 8 caractères")
      */
     private $password;
 
+	/**
+	 * @Assert\EqualTo(propertyPath="password", message="Les deux mots de passes ne sont pas identiques")
+	 */
+    public $confirm_password;
+
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
@@ -99,10 +113,7 @@ class User
         return $this;
     }
 
-    public function getRoles(): ?string
-    {
-        return $this->roles;
-    }
+
 
     public function setRoles(string $roles): self
     {
@@ -170,4 +181,14 @@ class User
 
         return $this;
     }
+
+    //Méthodes que l'on doit implémenter avec userinterface
+
+	public function getRoles() {
+		return ['ROLE_USER'];
+	}
+
+	public function getSalt() {}
+
+	public function eraseCredentials() {}
 }
