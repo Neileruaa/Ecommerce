@@ -13,15 +13,17 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController extends Controller
 {
 	/**
-	 * @Route("/registration", name="Security.registration")
+	 * @Route("/registration/{typeCompte}", name="Security.registration")
 	 * @param Request $request
 	 * @param ObjectManager $manager
 	 * @param UserPasswordEncoderInterface $encoder
+	 * @param $typeCompte
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function registration(Request $request,
 	                             ObjectManager $manager,
-	                             UserPasswordEncoderInterface $encoder) {
+	                             UserPasswordEncoderInterface $encoder,
+								 $typeCompte) {
 		$user = new User();
 		$form = $this->createForm(RegistrationType::class, $user);
 
@@ -30,11 +32,15 @@ class SecurityController extends Controller
 		if ($form->isSubmitted() && $form->isValid() ){
 			$hash = $encoder->encodePassword($user, $user->getPassword());
 			$user->setPassword($hash);
-			$user->setRoles('ROLE_USER')->setActive(true);
+			$user->setActive(true);
+			$user->setRoles('ROLE_USER');
+			if ($typeCompte == 'admin'){
+				$user->setRoles('ROLE_ADMIN');
+			}
 			$manager->persist($user);
 			$manager->flush();
 
-			$this->redirectToRoute('Security.login');
+			return $this->redirectToRoute('Security.login');
 		}
 		return $this->render('security/registration.html.twig',[
 			'form'=>$form->createView()

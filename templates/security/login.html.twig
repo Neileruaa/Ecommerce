@@ -11,7 +11,9 @@
             <input type="password" class="form-control" placeholder="Mot de passe..." required name="_password">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success">Se connecter </button>
+            <button type="submit" class="btn btn-success">Se connecter !</button>
+            <a href="{{ path('Security.registration', {typeCompte: 'client'}) }}" class="btn btn-outline-success">Pas de compte, créez en un !</a>
+            <a href="{{ path('Security.registration', {typeCompte: 'admin'}) }}" class="btn btn-outline-danger">Créer un admin !</a>
         </div>
     </form>
 {% endblock %}
