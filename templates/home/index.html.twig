@@ -6,5 +6,36 @@
 
 {% block body %}
     {{ parent() }}
-
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="/Images/products.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nos produits </h5>
+                    <p class="card-text">Consulter nos produits phares et commander le produit de vos rêves !</p>
+                    <a href="#" class="btn btn-primary">Voir produits</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="/Images/statistics.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Statistiques</h5>
+                    <p class="card-text">Nos dernières statistiques en temps réel...</p>
+                    <a href="#" class="btn btn-primary">Voir statistiques</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="/Images/joinUs.jpeg" alt="Image join us">
+                <div class="card-body">
+                    <h5 class="card-title">Compte personnel</h5>
+                    <p class="card-text">Acceder a votre compte pour profiter pleinement de nos fonctionnalités d'admin ou d'utilisateurs</p>
+                    <a href="#" class="btn btn-primary">Se connecter / S'inscrire</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
