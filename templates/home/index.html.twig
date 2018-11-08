@@ -6,18 +6,29 @@
 
 {% block body %}
     {{ parent() }}
+    {#TODO: problème de responsive et de colonnes bootstrap#}
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="card" style="width: 18rem; height: 400px">
                 <img class="card-img-top img-thumbnail img-fluid" src="/Images/products.jpg" alt="Card image cap" style="height: 150px; ">
                 <div class="card-body">
-                    <h5 class="card-title">Nos produits </h5>
+                    <h5 class="card-title">Espace client</h5>
                     <p class="card-text">Consulter nos produits phares et commander le produit de vos rêves !</p>
-                    <a href="#" class="btn btn-primary">Voir produits</a>
+                    <a href="#" class="btn btn-primary">Accéder</a>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
+            <div class="card" style="width: 18rem; height: 400px;">
+                <img class="card-img-top img-thumbnail" src="/Images/business.jpg" alt="Image join us" style="height: 150px; ">
+                <div class="card-body">
+                    <h5 class="card-title">Espace vendeur</h5>
+                    <p class="card-text">Ajouter de nouveaux produits, traiter vos commandes, gérer votre business</p>
+                    <a href="{{ path('Security.login') }}" class="btn btn-primary">Accéder</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
             <div class="card" style="width: 18rem; height: 400px;">
                 <img class="card-img-top img-thumbnail img-fluid" src="/Images/statistics.jpg" alt="Card image cap" style="height: 150px; ">
                 <div class="card-body">
@@ -27,8 +38,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="card" style="width: 18rem; height: 400px;">
+        <div class="col-sm-3">
+            <div class="card" style="width: 16rem; height: 400px;">
                 <img class="card-img-top img-thumbnail" src="/Images/joinUs.jpeg" alt="Image join us" style="height: 150px; ">
                 <div class="card-body">
                     <h5 class="card-title">Compte personnel</h5>
