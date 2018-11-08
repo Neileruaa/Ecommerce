@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Home{% endblock %}
+
+{% block header %}<h1>Bienvenue sur notre site d'Ecommerce</h1>{% endblock %}
 
 {% block body %}
-    <div class="container">test</div>
-    <button class="continue">test</button>
-{% endblock %}
-{% block javascripts %}
-    <script>$("button.continue" ).html( "Next Step..." )</script>
+    {{ parent() }}
+
 {% endblock %}
