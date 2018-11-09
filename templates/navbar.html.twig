@@ -5,8 +5,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav mr-auto">
-            <a class="nav-item nav-link " href="#">Accueil</a>
-            <a class="nav-item nav-link" href="#">TODO</a>
+            <a class="nav-item nav-link " href="{{ path('Home.index') }}">Accueil</a>
+            <a class="nav-item nav-link" href="{{ path('produit.show') }}">Produits</a>
             <a class="nav-item nav-link" href="#">TODO</a>
             {% if not app.user %}
                 <a class="nav-item nav-link" href="{{ path('Security.login') }}">Connexion</a>
@@ -17,6 +17,7 @@
                 {% if app.user.roles[0]=='ROLE_USER' %}
                     <div class="navbar-text ml-auto">Connecté en tant que client</div>
                 {% else %}
+                    {#TODO: probleme de USER/ADMIN (peu importe le compte tjrs en USER #}
                     <div class="nav-item nav-link">Connecté en tant qu'administrateur</div>
                 {% endif %}
             {% endif %}
