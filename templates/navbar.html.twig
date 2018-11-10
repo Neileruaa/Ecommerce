@@ -14,7 +14,7 @@
                 <a class="nav-item nav-link" href="{{ path('Security.logout') }}">Deconnexion</a>
         </ul>
         <ul class="navbar-nav ml-auto">
-                {% if app.user.roles[0]=='ROLE_USER' %}
+                {% if is_granted('ROLE_USER') %}
                     <div class="navbar-text ml-auto">Connecté en tant que client</div>
                 {% else %}
                     <div class="nav-item nav-link">Connecté en tant qu'administrateur</div>

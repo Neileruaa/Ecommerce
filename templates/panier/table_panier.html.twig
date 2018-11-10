@@ -1,0 +1,34 @@
+{#Tableau panier affichant les produits du paniers. Actuellement inclu dans showProduits #}
+<div class="table-responsive">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Prix</th>
+            <th scope="col" class="text-center">Photo</th>
+            <th scope="col" class="text-center">Type de Produit</th>
+            <th scope="col" class="text-center">Stock</th>
+            <th scope="col" class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for produit in panier.listeProduits if panier.listeProduits is not empty %}
+            <tr>
+                <th scope="row">{{ produit.nom }}</th>
+                <td>{{ produit.prix }}</td>
+                <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.photo) }}" alt="Pas de photo du produit" /></td>
+                <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
+                <td class="text-center">{{ produit.stock }}</td>
+                {% if is_granted('ROLE_USER') %}
+                    <td class="text-center"><a href="{{ path('produit.add', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #988686;"></span></a></td>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td class="text-center"><a href="#"><span class="icono-cross" style="color: #988686;"></span></a></td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><th colspan="6" class="text-center">Pas d'articles dans le panier</th></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block header %}<h4 class="text-center">Liste des produits</h4>{% endblock %}
+{% block header %}<h1 class="text-center">Liste des produits</h1>{% endblock %}
 
 {% block body %}
         <div class="row">
@@ -35,6 +35,11 @@
                         </tbody>
                     </table>
                 </div>
+                {#Affichage du panier si l'utilisateur est un client #}
+                {% if is_granted('ROLE_USER') %}
+                    ESPACE PANIER
+                    {% include 'panier/table_panier.html.twig' %}
+                {% endif %}
             </div>
         </div>
 {% endblock %}

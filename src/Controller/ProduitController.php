@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,22 +17,21 @@ class ProduitController extends AbstractController
      */
     public function showProduitsUser(){
         $produits=$this->getDoctrine()->getRepository(Produit::class)->findAll();
-
-        return $this->render("produit/showProduits.html.twig", ["produits"=>$produits]);
+		$panier = $this->getUser()->getPanier();
+        return $this->render("produit/showProduits.html.twig", [
+        	"produits" => $produits,
+	        'panier' => $panier
+        ]);
     }
 
     /**
      * @Route("/produits/add/{id}",name="produit.add", methods={"GET"})
      */
-    public function addProduit(Request $request){
-        $em=$this->getDoctrine()->getManager();
-        $user=$this->getUser();
-        $new_panier=$user->getPanier();
-        $new_produit=$this->getDoctrine()->getRepository(Produit::class)->find($request->get("id"));
-        dump($new_panier);
-        die();
-        $panier=$user->getPanier()->addListeProduit($new_produit);
+    public function addProduit(ObjectManager $manager, Produit $produit){
+        $panier=$this->getUser()->getPanier();
+        $panier->addListeProduit($produit);
+        $manager->persist($panier);
+        $manager->flush();
         return $this->redirectToRoute("produit.show");
-
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Panier;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -33,10 +34,13 @@ class SecurityController extends Controller
 			$hash = $encoder->encodePassword($user, $user->getPassword());
 			$user->setPassword($hash);
 			$user->setActive(true);
+			$panier = new Panier();
+			$user->setPanier($panier);
 			$user->setRoles('ROLE_USER');
 			if ($typeCompte == 'admin'){
 				$user->setRoles('ROLE_ADMIN');
 			}
+			$manager->persist($panier);
 			$manager->persist($user);
 			$manager->flush();
 
