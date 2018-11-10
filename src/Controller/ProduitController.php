@@ -24,14 +24,31 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/produits/add/{id}",name="produit.add", methods={"GET"})
-     */
-    public function addProduit(ObjectManager $manager, Produit $produit){
+	/**
+	 * @Route("/produits/add/{id}",name="produit.add", methods={"GET"})
+	 * @param ObjectManager $manager
+	 * @param Produit $produit
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+    public function ajouterItemDansPanier(ObjectManager $manager, Produit $produit){
         $panier=$this->getUser()->getPanier();
         $panier->addListeProduit($produit);
         $manager->persist($panier);
         $manager->flush();
         return $this->redirectToRoute("produit.show");
     }
+
+	/**
+	 * @Route("/produits/remove/{id}", name="produit.remove", methods={"GET"})
+	 * @param Produit $produit
+	 * @param ObjectManager $manager
+	 * @param Produit $produit
+	 */
+	public function supprimerItemDuPanier(ObjectManager $manager, Produit $produit) {
+		$panier=$this->getUser()->getPanier();
+		$panier->removeListeProduit($produit);
+		$manager->persist($panier);
+		$manager->flush();
+		return $this->redirectToRoute("produit.show");
+	}
 }
