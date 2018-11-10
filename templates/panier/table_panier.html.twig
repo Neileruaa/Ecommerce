@@ -21,8 +21,7 @@
                 <td class="text-center">{{ produit.stock }}</td>
                 {% if is_granted('ROLE_USER') %}
                     <td class="text-center">
-                        {#FIXME: mettre une icone icono ou bien trouver une bonne icone#}
-                        <a href="{{ path('Panier.removeItem', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #980505;"></span></a>
+                        <a href="{{ path('Panier.removeItem', {id: produit.id}) }}"><span class="icono-cross" aria-hidden="true" style="color: #980505;"></span></a>
                     </td>
 
                 {% endif %}
