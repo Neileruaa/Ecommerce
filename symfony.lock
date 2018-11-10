@@ -95,6 +95,15 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "google/recaptcha": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "ad1889cf16aa84af78e818710760546d2c45f69c"
+        }
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
