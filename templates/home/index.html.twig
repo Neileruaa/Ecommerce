@@ -6,7 +6,12 @@
 
 {% block body %}
     {{ parent() }}
-    {#TODO: problème de responsive et de colonnes bootstrap#}
+    <div id="app">
+        <label for="name">Name:</label>
+        <input id="name" type="text" v-model="name" /> <!--v-model is doing the magic here-->
+        <p>${ name }$</p>
+    </div>
+    {#FIXME: problème de responsive et de colonnes bootstrap#}
     <div class="row">
         <div class="col-sm-3">
             <div class="card" style="width: 18rem; height: 400px">
@@ -49,4 +54,15 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    const app = new Vue({
+    delimiters: ['${', '}$'],
+    el: '#app',
+    data: {
+        name: ''
+    }
+})</script>
 {% endblock %}
