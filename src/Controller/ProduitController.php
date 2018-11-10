@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,5 +26,17 @@ class ProduitController extends AbstractController
         	"produits" => $produits,
 	        'panier' => $panier
         ]);
+    }
+
+	/**
+	 * @Route("/produits/remove/{id}", name="Produit.remove", requirements={"page"="\d+"})
+	 * @IsGranted("ROLE_ADMIN")
+	 * @param Produit $produit
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function removeProduit(ObjectManager $manager, Produit $produit) {
+		$manager->remove($produit);
+		$manager->flush();
+		return $this->redirectToRoute('Produit.show');
     }
 }

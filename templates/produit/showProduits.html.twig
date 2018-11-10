@@ -28,7 +28,7 @@
                                     <td class="text-center"><a href="{{ path('Panier.addItem', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #988686;"></span></a></td>
                                 {% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <td class="text-center"><a href="#"><span class="icono-cross" style="color: #988686;"></span></a></td>
+                                    <td class="text-center"><a href="{{ path('Produit.remove', {'id': produit.id}) }}"><span class="icono-cross" style="color: #988686;"></span></a></td>
                                 {% endif %}
                             </tr>
                         {% endfor %}
