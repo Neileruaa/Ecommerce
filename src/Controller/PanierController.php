@@ -11,9 +11,15 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class PanierController
+ * @Security("is_granted('ROLE_USER')")
+ * @package App\Controller
+ */
 class PanierController extends Controller{
 	/**
 	 * @Route("/Panier/add/{id}",name="Panier.addItem", methods={"GET"})
@@ -26,7 +32,7 @@ class PanierController extends Controller{
 		$panier->addListeProduit($produit);
 		$manager->persist($panier);
 		$manager->flush();
-		return $this->redirectToRoute("produit.show");
+		return $this->redirectToRoute("Produit.show");
 	}
 
 	/**
@@ -41,6 +47,6 @@ class PanierController extends Controller{
 		$panier->removeListeProduit($produit);
 		$manager->persist($panier);
 		$manager->flush();
-		return $this->redirectToRoute("produit.show");
+		return $this->redirectToRoute("Produit.show");
 	}
 }
