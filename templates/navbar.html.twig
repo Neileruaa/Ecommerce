@@ -14,7 +14,7 @@
                 <a class="nav-item nav-link" href="{{ path('Security.logout') }}">Deconnexion</a>
         </ul>
         <ul class="navbar-nav ml-auto">
-                {% if app.user.roles[0]=='ROLE_USER' %}
+                {% if app.user.roles=='ROLE_USER' %}
                     <div class="navbar-text ml-auto">Connecté en tant que client</div>
                 {% else %}
                     {#TODO: probleme de USER/ADMIN (peu importe le compte tjrs en USER #}
