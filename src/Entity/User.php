@@ -185,7 +185,10 @@ class User implements UserInterface
     //Méthodes que l'on doit implémenter avec userinterface
 
 	public function getRoles() {
-		return $this->roles;
+		if ($this->roles)
+			return [$this->roles];
+		else
+			return ['ROLE_USER'];
 	}
 
 	public function getSalt() {}
