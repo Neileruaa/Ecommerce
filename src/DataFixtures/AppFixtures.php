@@ -26,9 +26,9 @@ class AppFixtures extends Fixture
         $meuble=new TypeProduit();
         $meuble->setLibelle("meuble");
         $produits=[
-            ["nom"=>"Tshirt", "prix"=>29.99, "photo"=>"test.png", "disponible"=>true, "stock"=>12, "typeProduit_id"=>$vetement],
-            ["nom"=>"Stylo", "prix"=>29.99, "photo"=>"test.png", "disponible"=>true, "stock"=>3, "typeProduit_id"=>$bureautique],
-            ["nom"=>"Armoire", "prix"=>29.99, "photo"=>"test.png", "disponible"=>false, "stock"=>0, "typeProduit_id"=>$meuble]
+            ["nom"=>"Tshirt", "prix"=>29.99, "photo"=>"products.jpg", "disponible"=>true, "stock"=>12, "typeProduit_id"=>$vetement],
+            ["nom"=>"Stylo", "prix"=>29.99, "photo"=>"products.jpg", "disponible"=>true, "stock"=>3, "typeProduit_id"=>$bureautique],
+            ["nom"=>"Armoire", "prix"=>29.99, "photo"=>"products.jpg", "disponible"=>false, "stock"=>0, "typeProduit_id"=>$meuble]
         ];
         $manager->persist($vetement);
         $manager->persist($bureautique);
@@ -55,14 +55,14 @@ class AppFixtures extends Fixture
         $user->setUserName("antoine");
         $user->setPassword("test");
         $user->setEmail("test@gmail.com");
-        $user->setRoles("['ROLE_USER']");
+        $user->setRoles("ROLE_USER");
         $user->setActive(true);
         $user->setPanier($panier_user);
 
         $admin->setUserName("admin");
         $admin->setPassword("admin");
         $admin->setEmail("admin@gmail.com");
-        $admin->setRoles("['ROLE_ADMIN']");
+        $admin->setRoles("ROLE_ADMIN");
         $admin->setActive(true);
         $admin->setPanier($panier_admin);
 

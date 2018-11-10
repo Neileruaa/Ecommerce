@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block header %}<h4 class="text-center">Liste des produits</h4>{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_USER') %}
+        <div class="row">
+            <div class="col-12 col-sm-12 col-lg-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col" class="text-center">Photo</th>
+                            <th scope="col" class="text-center">Type de Produit</th>
+                            <th scope="col" class="text-center">Stock</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for produit in produits %}
+                            <tr>
+                                <th scope="row">{{ produit.nom }}</th>
+                                <td>{{ produit.prix }}</td>
+                                <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.photo) }}" alt="Pas de photo du produit" /></td>
+                                <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
+                                <td class="text-center">{{ produit.stock }}</td>
+                                <td class="text-center"><a href="{{ path('produit.add', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #988686;"></span></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="row">
+            <div class="col-12 col-sm-12 col-lg-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col" class="text-center">Photo</th>
+                            <th scope="col" class="text-center">Type de Produit</th>
+                            <th scope="col" class="text-center">Stock</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for produit in produits %}
+                            <tr>
+                                <th scope="row">{{ produit.nom }}</th>
+                                <td>{{ produit.prix }}</td>
+                                <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.photo|e) }}" alt="Pas de photo du produit" /></td>
+                                <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
+                                <td class="text-center">{{ produit.stock }}</td>
+                                <td class="text-center"><a href="#"><span class="icono-cross" style="color: #988686;"></span></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
