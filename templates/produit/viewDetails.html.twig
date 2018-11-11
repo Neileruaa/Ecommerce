@@ -36,3 +36,10 @@
 </div>
 {% endblock %}
 
+{% block javascripts %}
+<script type="text/javascript">
+  $(function () {
+      $('textarea.ckeditor').ckeditor();
+  })
+</script>
+{% endblock %}
