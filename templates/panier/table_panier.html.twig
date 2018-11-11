@@ -2,6 +2,7 @@
 <div class="table-responsive">
     <table class="table">
         <thead class="thead-dark">
+        {% if panier.panierProduits is not empty %}
         <tr>
             <th scope="col">Nom</th>
             <th scope="col">Prix</th>
@@ -11,6 +12,7 @@
             <th scope="col" class="text-center">Total</th>
             <th scope="col" class="text-center">Actions</th>
         </tr>
+        {% endif %}
         </thead>
         <tbody>
         {% for produit in panier.panierProduits %}
