@@ -22,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Controller
  */
 class PanierController extends Controller{
+//	FIXME: Refaire ajouter et supprimé -> bugs
 	/**
 	 * @Route("/Panier/add/{id}",name="Panier.addItem", methods={"GET"})
 	 * @param ObjectManager $manager
