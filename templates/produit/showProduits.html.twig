@@ -2,7 +2,9 @@
 {% block header %}<h1 class="text-center">Liste des produits</h1>{% endblock %}
 
 {% block body %}
+        {% if is_granted('ROLE_ADMIN') %}
         <a class="btn btn-info m-1 " href="{{ path('Produit.add') }}">Ajouter un produit</a>
+        {% endif %}
         <div class="row" style="margin-bottom: 5em;">
             <div class="col-12 col-sm-12 col-lg-12">
                 <div class="table-responsive">
