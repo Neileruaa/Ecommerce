@@ -40,7 +40,7 @@
                 </div>
                 {#Affichage du panier si l'utilisateur est un client #}
                 {% if is_granted('ROLE_USER') %}
-                    ESPACE PANIER
+                    <h1 class="text-center">Espace Panier</h1>
                     {% include 'panier/table_panier.html.twig' %}
                 {% endif %}
             </div>
