@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,22 @@ class Produit
      * @ORM\JoinColumn(nullable=false)
      */
     private $typeProduit_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="produit", orphanRemoval=true)
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PanierProduits", mappedBy="produit")
+     */
+    private $panierProduits;
+
+    public function __construct()
+    {
+        $this->panierProduits = new ArrayCollection();
+	    $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +138,68 @@ class Produit
     public function setTypeProduitId(?TypeProduit $typeProduit_id): self
     {
         $this->typeProduit_id = $typeProduit_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PanierProduits[]
+     */
+    public function getPanierProduits(): Collection
+    {
+        return $this->panierProduits;
+    }
+
+    public function addPanierProduit(PanierProduits $panierProduit): self
+    {
+        if (!$this->panierProduits->contains($panierProduit)) {
+            $this->panierProduits[] = $panierProduit;
+            $panierProduit->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierProduit(PanierProduits $panierProduit): self
+    {
+        if ($this->panierProduits->contains($panierProduit)) {
+            $this->panierProduits->removeElement($panierProduit);
+            // set the owning side to null (unless already changed)
+            if ($panierProduit->getProduit() === $this) {
+                $panierProduit->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getProduit() === $this) {
+                $comment->setProduit(null);
+            }
+        }
 
         return $this;
     }

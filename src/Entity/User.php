@@ -68,9 +68,15 @@ class User implements UserInterface, \Serializable
      */
     private $panier;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,11 +192,11 @@ class User implements UserInterface, \Serializable
     //Méthodes que l'on doit implémenter avec userinterface
 
 	public function getRoles() {
-		if ($this->roles)
-			return [$this->roles];
-		else
-			return ['ROLE_USER'];
-	}
+               		if ($this->roles)
+               			return [$this->roles];
+               		else
+               			return ['ROLE_USER'];
+               	}
 
 	public function getSalt() {}
 
@@ -203,14 +209,14 @@ class User implements UserInterface, \Serializable
 	 * @since 5.1.0
 	 */
 	public function serialize() {
-		return serialize([
-			$this->id,
-			$this->userName,
-			$this->email,
-			$this->password,
-			$this->roles
-		]);
-	}
+               		return serialize([
+               			$this->id,
+               			$this->userName,
+               			$this->email,
+               			$this->password,
+               			$this->roles
+               		]);
+               	}
 
 	/**
 	 * Constructs the object
@@ -222,12 +228,43 @@ class User implements UserInterface, \Serializable
 	 * @since 5.1.0
 	 */
 	public function unserialize($serialized) {
-		list(
-			$this->id,
-			$this->userName,
-			$this->email,
-			$this->password,
-			$this->roles
-			) = unserialize($serialized,['allowed_classes'=>false]);
-	}
+               		list(
+               			$this->id,
+               			$this->userName,
+               			$this->email,
+               			$this->password,
+               			$this->roles
+               			) = unserialize($serialized,['allowed_classes'=>false]);
+               	}
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
 }
