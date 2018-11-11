@@ -19,7 +19,7 @@ class ProduitController extends AbstractController
     /**
      * @Route("/produits/show",name="Produit.show")
      */
-    public function showProduitsUser(){
+    public function showProduits(){
         $produits=$this->getDoctrine()->getRepository(Produit::class)->findAll();
 		$panier = $this->getUser()->getPanier();
         return $this->render("produit/showProduits.html.twig", [
@@ -29,7 +29,17 @@ class ProduitController extends AbstractController
     }
 
 	/**
-	 * @Route("/produits/remove/{id}", name="Produit.remove", requirements={"page"="\d+"})
+	 * @Route("/produits/viewDetails/{id}", name="Produit.viewDetails", requirements={"id"="\d+"})
+	 * @param Produit $produit
+	 */
+	public function detailsProduits(Produit $produit) {
+		return $this->render('produit/viewDetails.html.twig',[
+			'produit' => $produit
+		]);
+    }
+
+	/**
+	 * @Route("/produits/remove/{id}", name="Produit.remove", requirements={"id"="\d+"})
 	 * @IsGranted("ROLE_ADMIN")
 	 * @param Produit $produit
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse

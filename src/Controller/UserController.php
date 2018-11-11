@@ -48,7 +48,7 @@ class UserController extends AbstractController
     }
 
 	/**
-	 * @Route("/user/remove/{id}", name="User.remove")
+	 * @Route("/user/remove/{id}", name="User.remove", requirements={"id"="\d+"})
 	 * @param ObjectManager $manager
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */

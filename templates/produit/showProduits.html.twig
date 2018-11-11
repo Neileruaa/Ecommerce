@@ -19,7 +19,7 @@
                         <tbody>
                         {% for produit in produits %}
                             <tr>
-                                <th scope="row">{{ produit.nom }}</th>
+                                <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
                                 <td>{{ produit.prix }}</td>
                                 <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.photo) }}" alt="Pas de photo du produit" /></td>
                                 <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>

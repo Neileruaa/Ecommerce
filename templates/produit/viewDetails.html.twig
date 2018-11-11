@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails{% endblock %}
+
+{% block header %}
+<h1 class="text-center">Détails du produit : {{ produit.nom }}</h1>
+{% endblock %}
+
+{% block body %}
+<div class="card m-5">
+    <div class="card-body text-center">
+        <img  class="img-fluid" src="{{ asset('Images/'~produit.photo ) }}" alt="Photo du produit">
+        <h4 class="card-title">{{ produit.nom }}</h4>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <h6>Prix : </h6>
+            <p class="float-right">{{ produit.prix }}€</p>
+        </li>
+        <li class="list-group-item">
+            <h6>Disponible : </h6>
+            {% if produit.stock < 10 and produit.disponible == true %}
+                <p class="text-right">Il n'en reste que {{produit.stock}}</p>
+            {% elseif produit.disponible == true %}
+                <span class="icono-check float-right" aria-hidden="true" style="color: #0a9816;"></span>
+            {% else %}
+                <span class="icono-cross float-right" aria-hidden="true" style="color: #980403;"></span>
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            <h6>Type : </h6>
+            <p class="float-right">{{ produit.typeProduitId.libelle }}</p>
+        </li>
+
+    </ul>
+</div>
+{% endblock %}
+
