@@ -19,7 +19,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Espace client</h5>
                     <p class="card-text">Consulter nos produits phares et commander le produit de vos rêves !</p>
-                    <a href="#" class="btn btn-primary">Accéder</a>
+                    <a href="{{ path('Produit.show') }}" class="btn btn-primary">Accéder</a>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Espace vendeur</h5>
                     <p class="card-text">Ajouter de nouveaux produits, traiter vos commandes, gérer votre business</p>
-                    <a href="{{ path('Security.login') }}" class="btn btn-primary">Accéder</a>
+                    <a href="{{ path('Produit.show') }}" class="btn btn-primary">Accéder</a>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Compte personnel</h5>
                     <p class="card-text">Acceder a votre compte pour profiter pleinement de nos fonctionnalités d'admin ou d'utilisateurs</p>
-                    <a href="{{ path('Security.login') }}" class="btn btn-primary">Se connecter / S'inscrire</a>
+                    <a href="{{ path('User.edit') }}" class="btn btn-primary">Espace personnel</a>
                 </div>
             </div>
         </div>

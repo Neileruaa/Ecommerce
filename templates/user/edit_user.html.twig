@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre compte{% endblock %}
+
+{% block header %}
+    {% if is_granted('ROLE_USER') %}
+        <h1>Votre compte client</h1>
+    {% else %}
+        <h1>Votre compte vendeur</h1>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.userName, {'label': 'Nom d\'utilisateur', 'attr': {'placeholder': 'Nom d\'utilisateur'}}) }}
+    {{ form_row(form.email, {'label':'Adresse email', 'attr': {'placeholder': 'Adresse email'}}) }}
+    {{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'placeholder': 'Mot de passe'}}) }}
+    {{ form_end(form) }}
+    <button type="submit" class="btn btn-success">Valider les changements</button>
+    <a  href="{{ path('User.remove', {id: user.id}) }}" class="btn btn-danger text-right float-right">Supprimer ce profil</a>
+{% endblock %}
