@@ -31,6 +31,7 @@ class Panier
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PanierProduits", mappedBy="panier", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $panierProduits;
 

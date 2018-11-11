@@ -15,15 +15,15 @@
         <tbody>
         {% for produit in panier.panierProduits %}
             {% if panier.panierProduits is not empty %}
-            {% if produit.quantity>=1 %}
+            {#% if produit.quantity>=1 %#}
                 <tr>
                     {#TODO:Mettre le lien vers Details de ce produit#}
                     <th scope="row">{{ produit.produit.nom }}</th>
                     <td>{{ produit.produit.prix }}</td>
                     <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.produit.photo) }}" alt="Pas de photo du produit" /></td>
                     <td class="text-center">{{ produit.produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
-                    <td class="text-center">{{ produit  .getQuantity() }}</td>{#TODO: GERER LA QUANTITY#}
-                    <td class="text-center">TODO</td>{#TODO: Total = quantity * price#}
+                    <td class="text-center">{{ produit  .getQuantity() }}</td>
+                    <td class="text-center">{{ produit.getQuantity()*produit.produit.prix }}</td>
                     {% if is_granted('ROLE_USER') %}
                         <td class="text-center">
                             <a href="{{ path('Panier.addItem', {id: produit.produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #21ff94;"></span></a>
@@ -36,7 +36,7 @@
                     {% endif %}
                 </tr>
             </tbody>
-            {% endif %}
+            {#% endif %#}
         {% endif %}
         {% else %}
             <tr><th colspan="6" class="text-center">Pas d'articles dans le panier</th></tr>

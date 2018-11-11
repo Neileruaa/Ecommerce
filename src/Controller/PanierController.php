@@ -32,11 +32,10 @@ class PanierController extends Controller{
 	public function ajouterItemDansPanier(ObjectManager $manager, Produit $produit){
 		$panier=$this->getUser()->getPanier();
 		foreach ($panier->getPanierProduits() as $new_produit){
-            if ($new_produit->getId()==$produit->getId()){
+            if ($new_produit->getProduit()->getId()==$produit->getId()){
                 $new_produit->setQuantity($new_produit->getQuantity()+1);
-
-                $panier->addPanierProduit($new_produit);
-                $manager->persist($panier);
+                //$panier->addPanierProduit($new_produit);
+                $manager->persist($new_produit);
                 $manager->flush();
                 return $this->redirectToRoute("Produit.show");
             }
@@ -62,8 +61,12 @@ class PanierController extends Controller{
 	public function supprimerItemDuPanier(ObjectManager $manager, Produit $produit) {
         $panier=$this->getUser()->getPanier();
         foreach ($panier->getPanierProduits() as $new_produit){
-            if ($new_produit->getId()==$produit->getId()){
-
+            if ($new_produit->getProduit()->getId()==$produit->getId()){
+                if ($new_produit->getQuantity()<=1){
+                    $panier->removePanierProduit($new_produit);
+                    $manager->flush();
+                    return $this->redirectToRoute("Produit.show");
+                }
                 $new_produit->setQuantity($new_produit->getQuantity()-1);
 
                 $panier->addPanierProduit($new_produit);

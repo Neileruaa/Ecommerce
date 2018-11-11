@@ -29,7 +29,7 @@ class PanierProduits
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Panier", inversedBy="panierProduits", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $panier;
 
