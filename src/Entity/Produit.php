@@ -53,12 +53,12 @@ class Produit
     private $typeProduit_id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="produit", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="produit", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PanierProduits", mappedBy="produit")
+     * @ORM\OneToMany(targetEntity="App\Entity\PanierProduits", mappedBy="produit", cascade={"persist", "remove"})
      */
     private $panierProduits;
 
