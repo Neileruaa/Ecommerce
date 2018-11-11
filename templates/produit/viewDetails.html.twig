@@ -35,8 +35,10 @@
     </ul>
 </div>
 
-{% for comment in produit.comments %}
+{% for comment in produit.comments if produit.comments is not empty%}
     {% include 'comment/comment_show.html.twig' with {'comment': comment} %}
+{% else %}
+    <p class="text-secondary text-center" style="margin-bottom: 5em;">Pas encore de commentaires sur cette article !</p>
 {% endfor %}
 
 {% if is_granted('ROLE_USER') %}
