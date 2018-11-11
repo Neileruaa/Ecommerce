@@ -39,9 +39,11 @@
     {% include 'comment/comment_show.html.twig' with {'comment': comment} %}
 {% endfor %}
 
-<div>
-    {% include 'comment/form_comment.html.twig' %}
-</div>
+{% if is_granted('ROLE_USER') %}
+    <div>
+        {% include 'comment/form_comment.html.twig' %}
+    </div>
+{% endif %}
 {% endblock %}
 
 {% block javascripts %}

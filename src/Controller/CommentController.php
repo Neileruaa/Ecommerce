@@ -6,10 +6,17 @@ use App\Entity\Comment;
 use App\Entity\Produit;
 use App\Form\CommentType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class CommentController
+ * @Security("is_granted('ROLE_USER')")
+ * @package App\Controller
+ */
 class CommentController extends AbstractController
 {
 	/**
