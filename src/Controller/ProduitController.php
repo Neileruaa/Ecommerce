@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Produit;
 use App\Form\CommentType;
+use App\Form\ProduitType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -62,5 +65,47 @@ class ProduitController extends AbstractController
 		$manager->remove($produit);
 		$manager->flush();
 		return $this->redirectToRoute('Produit.show');
+    }
+
+	/**
+	 * @Route("/produits/add", name="Produit.add")
+	 * @isGranted("ROLE_ADMIN")
+	 * @param ObjectManager $manager
+	 * @param Request $request
+	 */
+	public function addProduit(ObjectManager $manager, Request $request) {
+		$produit = new Produit();
+		$form = $this->createForm(ProduitType::class, $produit);
+
+		$form->handleRequest($request);
+		if ($form->isSubmitted() and $form->isValid()){
+			/** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+			$file = $form->get('photo')->getData();
+
+			$fileName = $this->generateUniqueFilename().'.'.$file->guessExtension();
+
+			try{
+				$file->move(
+					$this->getParameter('photos_directory'),
+					$fileName
+				);
+			}catch (FileException $e){
+				throw $e;
+			}
+
+			$produit->setPhoto($fileName);
+
+			$manager->persist($produit);
+			$manager->flush();
+			return $this->redirectToRoute('Produit.show');
+		}
+
+		return $this->render('produit/addProduit.html.twig', [
+			'form'=>$form->createView()
+		]);
+    }
+
+    private function generateUniqueFilename(){
+		return md5(uniqid());
     }
 }

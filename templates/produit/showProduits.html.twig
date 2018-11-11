@@ -2,7 +2,8 @@
 {% block header %}<h1 class="text-center">Liste des produits</h1>{% endblock %}
 
 {% block body %}
-        <div class="row">
+        <a class="btn btn-info m-1 " href="{{ path('Produit.add') }}">Ajouter un produit</a>
+        <div class="row" style="margin-bottom: 5em;">
             <div class="col-12 col-sm-12 col-lg-12">
                 <div class="table-responsive">
                     <table class="table">
@@ -21,7 +22,7 @@
                             <tr>
                                 <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
                                 <td>{{ produit.prix }}</td>
-                                <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.photo) }}" alt="Pas de photo du produit" /></td>
+                                <td class="text-center"><img class="img-fluid"style="width: 90px; height: 90px;" src="{{ asset('uploads/photos/'~produit.photo) | default('Images/products.jpg') }}" alt="Pas de photo du produit" /></td>
                                 <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
                                 <td class="text-center">{{ produit.stock }}</td>
                                 {% if is_granted('ROLE_USER') %}
