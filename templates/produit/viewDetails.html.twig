@@ -36,7 +36,7 @@
 </div>
 
 {% for comment in produit.comments %}
-    {{ comment.content | raw }}
+    {% include 'comment/comment_show.html.twig' with {'comment': comment} %}
 {% endfor %}
 
 <div>

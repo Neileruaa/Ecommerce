@@ -1,0 +1,20 @@
+{#Utilisé dans viewDetail#}
+{#TODO:fonctionnalité reply à un commentaire et like un commentaire#}
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="https://via.placeholder.com/150?text=Image+profil+user" alt="Image du profil" class="img-fluid">
+                {#TODO:Afficher heure et minutes et si il y a moins d'une journée : Il y a 25 min ... #}
+                <p class="text-secondary text-center">{{comment.createdAt|date('d/m/Y')}}</p>
+            </div>
+            <div class="col-md-10">
+                <p>
+                    <strong class="float-left text-info">{{ comment.author.userName }}</strong>
+                </p>
+                <div class="clearfix"></div>
+                <p>{{ comment.content|raw }}</p>
+            </div>
+        </div>
+    </div>
+</div>
