@@ -25,19 +25,20 @@ class Panier
     private $user_id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Produit")
-     */
-    private $listeProduits;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateAchat;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PanierProduits", mappedBy="panier", cascade={"persist", "remove"})
+     */
+    private $panierProduits;
 
 
     public function __construct()
     {
         $this->listeProduits = new ArrayCollection();
+        $this->panierProduits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,32 +58,6 @@ class Panier
         return $this;
     }
 
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getListeProduits(): Collection
-    {
-        return $this->listeProduits;
-    }
-
-    public function addListeProduit(Produit $listeProduit): self
-    {
-        if (!$this->listeProduits->contains($listeProduit)) {
-            $this->listeProduits[] = $listeProduit;
-        }
-
-        return $this;
-    }
-
-    public function removeListeProduit(Produit $listeProduit): self
-    {
-        if ($this->listeProduits->contains($listeProduit)) {
-            $this->listeProduits->removeElement($listeProduit);
-        }
-
-        return $this;
-    }
-
     public function getDateAchat(): ?\DateTimeInterface
     {
         return $this->dateAchat;
@@ -91,6 +66,37 @@ class Panier
     public function setDateAchat(?\DateTimeInterface $dateAchat): self
     {
         $this->dateAchat = $dateAchat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PanierProduits[]
+     */
+    public function getPanierProduits(): Collection
+    {
+        return $this->panierProduits;
+    }
+
+    public function addPanierProduit(PanierProduits $panierProduit): self
+    {
+        if (!$this->panierProduits->contains($panierProduit)) {
+            $this->panierProduits[] = $panierProduit;
+            $panierProduit->setPanier($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierProduit(PanierProduits $panierProduit): self
+    {
+        if ($this->panierProduits->contains($panierProduit)) {
+            $this->panierProduits->removeElement($panierProduit);
+            // set the owning side to null (unless already changed)
+            if ($panierProduit->getPanier() === $this) {
+                $panierProduit->setPanier(null);
+            }
+        }
 
         return $this;
     }

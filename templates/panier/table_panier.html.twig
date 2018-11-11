@@ -7,42 +7,46 @@
             <th scope="col">Prix</th>
             <th scope="col" class="text-center">Photo</th>
             <th scope="col" class="text-center">Type de Produit</th>
-            <th scope="col" class="text-center">Quantity</th>
+            <th scope="col" class="text-center">Quantité</th>
             <th scope="col" class="text-center">Total</th>
             <th scope="col" class="text-center">Actions</th>
         </tr>
         </thead>
         <tbody>
-        {% for produit in panier.listeProduits if panier.listeProduits is not empty %}
-            <tr>
-                <th scope="row">{{ produit.nom }}</th>
-                <td>{{ produit.prix }}</td>
-                <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.photo) }}" alt="Pas de photo du produit" /></td>
-                <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
-                <td class="text-center">TODO</td>{#TODO: GERER LA QUANTITY#}
-                <td class="text-center">TODO</td>{#TODO: Total = quantity * price#}
-                {% if is_granted('ROLE_USER') %}
-                    <td class="text-center">
-                        <a href="{{ path('Panier.removeItem', {id: produit.id}) }}"><span class="icono-cross" aria-hidden="true" style="color: #980505;"></span></a>
-                    </td>
+        {% for produit in panier.panierProduits %}
+            {% if panier.panierProduits is not empty %}
+            {% if produit.quantity>=1 %}
+                <tr>
+                    <th scope="row">{{ produit.produit.nom }}</th>
+                    <td>{{ produit.produit.prix }}</td>
+                    <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.produit.photo) }}" alt="Pas de photo du produit" /></td>
+                    <td class="text-center">{{ produit.produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
+                    <td class="text-center">{{ produit  .getQuantity() }}</td>{#TODO: GERER LA QUANTITY#}
+                    <td class="text-center">TODO</td>{#TODO: Total = quantity * price#}
+                    {% if is_granted('ROLE_USER') %}
+                        <td class="text-center">
+                            <a href="{{ path('Panier.addItem', {id: produit.produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #21ff94;"></span></a>
+                            <a href="{{ path('Panier.removeItem', {id: produit.produit.id}) }}"><span class="icono-cross" aria-hidden="true" style="color: #980505;"></span></a>
+                        </td>
 
-                {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
-                    <td class="text-center"><a href="#"><span class="icono-cross" style="color: #988686;"></span></a></td>
-                {% endif %}
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="5">Valeur du panier:</th>
-                <th class="text-center">180€</th>{#TODO: =>somme des totaux #}
-            </tr>
-        </tfoot>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="text-center"><a href="#"><span class="icono-cross" style="color: #988686;"></span></a></td>
+                    {% endif %}
+                </tr>
+            </tbody>
+            {% endif %}
+        {% endif %}
         {% else %}
             <tr><th colspan="6" class="text-center">Pas d'articles dans le panier</th></tr>
-        </tbody>
+            </tbody>
         {% endfor %}
-
+        <tfoot>
+        <tr>
+            <th colspan="5">Valeur du panier:</th>
+            <th class="text-center">{{ montant }} </th>{#TODO: =>somme des totaux #}
+        </tr>
+        </tfoot>
 
     </table>
 </div>

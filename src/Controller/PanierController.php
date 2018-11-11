@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Entity\PanierProduits;
 use App\Entity\Produit;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -29,7 +30,22 @@ class PanierController extends Controller{
 	 */
 	public function ajouterItemDansPanier(ObjectManager $manager, Produit $produit){
 		$panier=$this->getUser()->getPanier();
-		$panier->addListeProduit($produit);
+		foreach ($panier->getPanierProduits() as $new_produit){
+            if ($new_produit->getId()==$produit->getId()){
+                $new_produit->setQuantity($new_produit->getQuantity()+1);
+
+                $panier->addPanierProduit($new_produit);
+                $manager->persist($panier);
+                $manager->flush();
+                return $this->redirectToRoute("Produit.show");
+            }
+        }
+        $new_produit=new PanierProduits();
+		$new_produit->setProduit($produit);
+		$new_produit->setPanier($panier);
+		$new_produit->setQuantity(1);
+
+		$panier->addPanierProduit($new_produit);
 		$manager->persist($panier);
 		$manager->flush();
 		return $this->redirectToRoute("Produit.show");
@@ -43,10 +59,18 @@ class PanierController extends Controller{
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function supprimerItemDuPanier(ObjectManager $manager, Produit $produit) {
-		$panier=$this->getUser()->getPanier();
-		$panier->removeListeProduit($produit);
-		$manager->persist($panier);
-		$manager->flush();
+        $panier=$this->getUser()->getPanier();
+        foreach ($panier->getPanierProduits() as $new_produit){
+            if ($new_produit->getId()==$produit->getId()){
+
+                $new_produit->setQuantity($new_produit->getQuantity()-1);
+
+                $panier->addPanierProduit($new_produit);
+                $manager->persist($panier);
+                $manager->flush();
+                return $this->redirectToRoute("Produit.show");
+            }
+        }
 		return $this->redirectToRoute("Produit.show");
 	}
 }

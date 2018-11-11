@@ -22,9 +22,15 @@ class ProduitController extends AbstractController
     public function showProduitsUser(){
         $produits=$this->getDoctrine()->getRepository(Produit::class)->findAll();
 		$panier = $this->getUser()->getPanier();
+        $montant=0;
+        foreach ($panier->getPanierProduits() as $produit){
+            $montant=$montant+($produit->getProduit()->getPrix())*($produit->getQuantity());
+        }
+
         return $this->render("produit/showProduits.html.twig", [
         	"produits" => $produits,
-	        'panier' => $panier
+	        'panier' => $panier,
+            'montant'=>$montant
         ]);
     }
 
@@ -35,6 +41,7 @@ class ProduitController extends AbstractController
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function removeProduit(ObjectManager $manager, Produit $produit) {
+
 		$manager->remove($produit);
 		$manager->flush();
 		return $this->redirectToRoute('Produit.show');
