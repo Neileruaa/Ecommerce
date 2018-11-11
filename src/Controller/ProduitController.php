@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Produit;
+use App\Form\CommentType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -37,10 +39,15 @@ class ProduitController extends AbstractController
 	/**
 	 * @Route("/produits/viewDetails/{id}", name="Produit.viewDetails", requirements={"id"="\d+"})
 	 * @param Produit $produit
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function detailsProduits(Produit $produit) {
+		$comment = new Comment();
+		$form = $this->createForm(CommentType::class, $comment);
+
 		return $this->render('produit/viewDetails.html.twig',[
-			'produit' => $produit
+			'produit' => $produit,
+			'form' => $form->createView()
 		]);
     }
 

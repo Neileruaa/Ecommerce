@@ -34,6 +34,14 @@
 
     </ul>
 </div>
+
+{% for comment in produit.comments %}
+    {{ comment.content | raw }}
+{% endfor %}
+
+<div>
+    {% include 'comment/form_comment.html.twig' %}
+</div>
 {% endblock %}
 
 {% block javascripts %}

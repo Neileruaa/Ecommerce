@@ -17,6 +17,7 @@
             {% if panier.panierProduits is not empty %}
             {% if produit.quantity>=1 %}
                 <tr>
+                    {#TODO:Mettre le lien vers Details de ce produit#}
                     <th scope="row">{{ produit.produit.nom }}</th>
                     <td>{{ produit.produit.prix }}</td>
                     <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.produit.photo) }}" alt="Pas de photo du produit" /></td>
