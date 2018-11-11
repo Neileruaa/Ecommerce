@@ -14,14 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CommentController
- * @Security("is_granted('ROLE_USER')")
+ * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")
  * @package App\Controller
  */
 class CommentController extends AbstractController
 {
 	/**
+	 * id = id du produit pas du comment
 	 * @Route("/comment/add/{id}", name="Comment.add")
-	 * @param $form
+	 * @param ObjectManager $manager
+	 * @param Request $request
 	 * @param Produit $produit
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
@@ -38,5 +40,19 @@ class CommentController extends AbstractController
 			$manager->flush();
 		}
 		return $this->redirectToRoute('Produit.viewDetails', ['id' => $produit->getId()]);
+    }
+
+	/**
+	 * @Route("/comment/remove/{productid}/{id}", name="Comment.remove")
+	 * @isGranted("ROLE_ADMIN")
+	 */
+	public function removeComment(ObjectManager $manager, Request $request, $id, $productid) {
+		$comment=$manager->getRepository(Comment::class)->find($id);
+		$produit=$manager->getRepository(Produit::class)->find($productid);
+		$this->getUser()->removeComment($comment);
+		$produit->removeComment($comment);
+		$manager->remove($comment);
+		$manager->flush();
+		return $this->redirectToRoute('Produit.viewDetails',['id'=>$produit->getId()]);
     }
 }

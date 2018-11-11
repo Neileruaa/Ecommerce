@@ -1,6 +1,6 @@
 {#Utilisé dans viewDetail#}
 {#TODO:fonctionnalité reply à un commentaire et like un commentaire#}
-<div class="card mb-3">
+<div class="card mb-5">
     <div class="card-body">
         <div class="row">
             <div class="col-md-2">
@@ -11,6 +11,9 @@
             <div class="col-md-10">
                 <p>
                     <strong class="float-left text-info">{{ comment.author.userName }}</strong>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <strong class="float-right"><a href="{{ path('Comment.remove', {id: comment.id, productid: produit.id}) }}"><span class="icono-trash" style="color: #981017;">Supprimer</span></a></strong>
+                    {% endif %}
                 </p>
                 <div class="clearfix"></div>
                 <p>{{ comment.content|raw }}</p>
