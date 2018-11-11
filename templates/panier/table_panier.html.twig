@@ -42,12 +42,13 @@
             <tr><th colspan="6" class="text-center">Pas d'articles dans le panier</th></tr>
             </tbody>
         {% endfor %}
+        {% if panier.panierProduits is not empty %}
         <tfoot>
         <tr>
             <th colspan="5">Valeur du panier:</th>
             <th class="text-center">{{ montant }} </th>{#TODO: =>somme des totaux #}
         </tr>
         </tfoot>
-
+        {% endif %}
     </table>
 </div>
