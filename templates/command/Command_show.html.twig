@@ -5,7 +5,6 @@
 {% block header %}<h1>Voici les commandes</h1>{% endblock %}
 
 {% block body %}
-    
     <div class="row text-center">
         <div class="alert alert-success col">
             <strong>Commande validée</strong>
@@ -18,9 +17,10 @@
         </div>
     </div>
     {% for command in commands if commands is not empty%}
+        {% include 'command/command_validated_details.html.twig' %}
         {#TODO: mettre la couleur en fonction de l'état#}
         <div class="alert alert-warning">
-            <strong>Commande : {{ command.id }}</strong>
+            <strong><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">Commande : {{ command.id }}</a></strong>
         </div>
     {% else %}
         <p class="text-secondary text-center">Pas encore de commandes</p>

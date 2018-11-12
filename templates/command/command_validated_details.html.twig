@@ -1,8 +1,8 @@
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Confirmation de la commande</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Détails de la commande</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -20,13 +20,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for produit in panier.panierProduits %}
+                    {% for produit in command.getPanierCommande() %}
                     <tr>
                         <th scope="row">{{ produit.produit.nom }}</th>
                         <td>{{ produit.produit.prix }}</td>
                         <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.produit.photo) }}" alt="Pas de photo du produit" /></td>
                         <td class="text-center">{{ produit.produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
-                        <td class="text-center">{{ produit  .getQuantity() }}</td>
+                        <td class="text-center">{{ produit .getQuantity() }}</td>
                         <td class="text-center">{{ produit.getQuantity()*produit.produit.prix }}</td>
                     </tr>
                     </tbody>
@@ -34,14 +34,10 @@
                     <tfoot>
                     <tr>
                         <th colspan="5">Montant de la commande :</th>
-                        <th class="text-center">{{ montant }} </th>
+                        <th class="text-center">{{ command.montant }} </th>
                     </tr>
                     </tfoot>
                 </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Retour aux achats</button>
-                <a href="{{ path('commande.create') }}" class="btn btn-outline-success">Valider la commande</a>
             </div>
         </div>
     </div>
