@@ -18,6 +18,7 @@
         </div>
     </div>
     {% for command in commands if commands is not empty%}
+        {% include 'command/command_validated_details.html.twig' %}
         <div class="alert
             {% if command.etat == 'Attente' %}
                 alert-warning
@@ -27,7 +28,7 @@
                 alert-success
             {% endif %}
         ">
-            <strong>Commande : {{ command.id }}</strong>
+            <strong><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">Commande : {{ command.id }}</a></strong>
             <p class="float-right text-secondary">{{ command.dateCommande|date('m-d-Y') }}</p>
         </div>
         {% include 'command/command_option.html.twig' %}
