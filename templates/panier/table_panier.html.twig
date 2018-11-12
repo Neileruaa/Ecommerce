@@ -27,12 +27,12 @@
                     {% if is_granted('ROLE_USER') %}
                         <td class="text-center">
                             <a href="{{ path('Panier.addItem', {id: produit.produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #21ff94;"></span></a>
-                            <a href="{{ path('Panier.removeItem', {id: produit.produit.id}) }}"><span class="icono-cross" aria-hidden="true" style="color: #980505;"></span></a>
+                            <a href="{{ path('Panier.removeItem', {id: produit.produit.id}) }}"><span class="icono-cross" aria-hidden="true" style="color: #cc0000;"></span></a>
                         </td>
 
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
-                        <td class="text-center"><a href="#"><span class="icono-cross" style="color: #988686;"></span></a></td>
+                        <td class="text-center"><a href="#"><span class="icono-cross" style="color: #cc0000;"></span></a></td>
                     {% endif %}
                 </tr>
             </tbody>
