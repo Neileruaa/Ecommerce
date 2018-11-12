@@ -33,21 +33,28 @@ class PanierController extends Controller{
 		$panier=$this->getUser()->getPanier();
 		foreach ($panier->getPanierProduits() as $new_produit){
             if ($new_produit->getProduit()->getId()==$produit->getId()){
-                $new_produit->setQuantity($new_produit->getQuantity()+1);
-                //$panier->addPanierProduit($new_produit);
-                $manager->persist($new_produit);
-                $manager->flush();
+                if ($produit->getStock()>0){
+                    $new_produit->setQuantity($new_produit->getQuantity()+1);
+                    $produit->setStock($produit->getStock()-1);
+                    //$panier->addPanierProduit($new_produit);
+                    $manager->persist($new_produit);
+                    $manager->flush();
+                    return $this->redirectToRoute("Produit.show");
+                }
                 return $this->redirectToRoute("Produit.show");
             }
         }
-        $new_produit=new PanierProduits();
-		$new_produit->setProduit($produit);
-		$new_produit->setPanier($panier);
-		$new_produit->setQuantity(1);
+        if ($produit->getStock()>0){
+            $produit->setStock($produit->getStock()-1);
+            $new_produit=new PanierProduits();
+            $new_produit->setProduit($produit);
+            $new_produit->setPanier($panier);
+            $new_produit->setQuantity(1);
 
-		$panier->addPanierProduit($new_produit);
-		$manager->persist($panier);
-		$manager->flush();
+            $panier->addPanierProduit($new_produit);
+            $manager->persist($panier);
+            $manager->flush();
+        }
 		return $this->redirectToRoute("Produit.show");
 	}
 
@@ -63,10 +70,12 @@ class PanierController extends Controller{
         foreach ($panier->getPanierProduits() as $new_produit){
             if ($new_produit->getProduit()->getId()==$produit->getId()){
                 if ($new_produit->getQuantity()<=1){
+                    $produit->setStock($produit->getStock()+1);
                     $panier->removePanierProduit($new_produit);
                     $manager->flush();
                     return $this->redirectToRoute("Produit.show");
                 }
+                $produit->setStock($produit->getStock()+1);
                 $new_produit->setQuantity($new_produit->getQuantity()-1);
 
                 $panier->addPanierProduit($new_produit);
@@ -85,6 +94,8 @@ class PanierController extends Controller{
 	    $em=$this->getDoctrine()->getManager();
 	    $user=$this->getUser();
         foreach ($user->getPanier()->getPanierProduits() as $panierProd){
+            $oldProd=$panierProd->getProduit();
+            $oldProd->setStock($oldProd->getStock()+$panierProd->getQuantity());
             $user->getPanier()->removePanierProduit($panierProd);
         }
         $em->persist($user);
