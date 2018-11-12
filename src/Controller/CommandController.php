@@ -25,11 +25,10 @@ class CommandController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function showCommand(ObjectManager $manager) {
-		if ($this->getUser()->getRoles() == ['ROLE_ADMIN']){
+		if ($this->getUser()->getRoles() == ['ROLE_ADMIN'])
 			$commands = $manager->getRepository(Commande::class)->findAll();
-		}else{
+		else
 			$commands = $this->getUser()->getCommandes();
-		}
 
 		return $this->render('command/Command_show.html.twig',[
 			'commands' => $commands
