@@ -13,6 +13,8 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
             <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css">
             <script src='https://www.google.com/recaptcha/api.js'></script>
+
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
         {% endblock %}
     </head>
     <body>
@@ -36,6 +38,10 @@
 
     {# CKEDITOR #}
     <script src="//cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+    <!-- A SUPPRIMER SI BUG JS OU CSS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     {% block javascripts %}{% endblock %}
     </body>
 </html>
