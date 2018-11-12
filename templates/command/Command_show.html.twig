@@ -1,2 +1,28 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Liste commandes {% endblock %}
+
+{% block header %}<h1>Voici les commandes</h1>{% endblock %}
+
+{% block body %}
+    
+    <div class="row text-center">
+        <div class="alert alert-success col">
+            <strong>Commande validée</strong>
+        </div>
+        <div class="alert alert-warning col">
+            <strong>Commande en attente </strong>
+        </div>
+        <div class="alert alert-danger col">
+            <strong>Commande annulée </strong>
+        </div>
+    </div>
+    {% for command in commands if commands is not empty%}
+        {#TODO: mettre la couleur en fonction de l'état#}
+        <div class="alert alert-warning">
+            <strong>Commande : {{ command.id }}</strong>
+        </div>
+    {% else %}
+        <p class="text-secondary text-center">Pas encore de commandes</p>
+    {% endfor %}
+{% endblock %}
