@@ -142,4 +142,33 @@ class ProduitController extends AbstractController
 		    'produits' =>$produits_to_show
 		]);
     }
+
+    /**
+     * @Route("/produit/incremente/{id}",name="produit.incremente",  requirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Produit $produit
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     */
+    public function incrementeProduit(ObjectManager $manager, Produit $produit){
+        $produit->setStock($produit->getStock()+1);
+        $manager->persist($produit);
+        $manager->flush();
+        return $this->redirectToRoute('Produit.show');
+    }
+
+    /**
+     * @Route("/produit/decremente/{id}",name="produit.decremente",  requirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Produit $produit
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function decrementeProduit(ObjectManager $manager, Produit $produit){
+        if ($produit->getStock()>0){
+            $produit->setStock($produit->getStock()-1);
+            $manager->persist($produit);
+            $manager->flush();
+        }
+        return $this->redirectToRoute('Produit.show');
+    }
 }
