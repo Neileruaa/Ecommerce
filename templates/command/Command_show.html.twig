@@ -28,7 +28,7 @@
                 alert-success
             {% endif %}
         ">
-            <strong><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">Commande : {{ command.id }}</a></strong>
+            <strong><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#T{{ command.id }}">Commande : {{ command.id }}</a></strong>
         </div>
     {% else %}
         <p class="text-secondary text-center">Pas encore de commandes</p>
