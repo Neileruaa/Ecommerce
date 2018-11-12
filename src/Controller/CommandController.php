@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CommandController extends AbstractController {
 	/**
-	 * @Route("/commands/show", name="Command.show")
+	 * @Route("/commands/show/{id}", name="Command.show")
 	 * @param ObjectManager $manager
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
@@ -29,6 +29,8 @@ class CommandController extends AbstractController {
 			$commands = $manager->getRepository(Commande::class)->findAll();
 		else
 			$commands = $this->getUser()->getCommandes();
+
+
 
 		return $this->render('command/Command_show.html.twig',[
 			'commands' => $commands

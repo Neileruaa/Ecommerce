@@ -28,7 +28,9 @@
             {% endif %}
         ">
             <strong>Commande : {{ command.id }}</strong>
+            <p class="float-right text-secondary">{{ command.dateCommande|date('m-d-Y') }}</p>
         </div>
+        {% include 'command/command_option.html.twig' %}
     {% else %}
         <p class="text-secondary text-center">Pas encore de commandes</p>
     {% endfor %}
