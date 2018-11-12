@@ -51,8 +51,10 @@
             <th class="text-center">{{ montant }} </th>
         </tr>
         </tfoot>
-            <a href="{{ path('panier.vider') }}" class="btn btn-outline-danger">Vider le panier</a>
-            <a href="#" class="btn btn-outline-success" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter">Valider le panier</a>
+            <div class="m-1">
+                <a href="{{ path('panier.vider') }}" class="btn btn-outline-danger">Vider le panier</a>
+                <a href="#" class="btn btn-outline-success float-right" data-toggle="modal" data-target="#exampleModalCenter">Valider le panier</a>
+            </div>
         {% endif %}
     </table>
 </div>

@@ -52,7 +52,7 @@ class CommandController extends AbstractController {
         $time=new \DateTime();
         $time->format('H:i:s \O\n d-m-Y');
         $new_command->setDateCommande($time);
-        $new_command->setEtat("En cours");
+        $new_command->setEtat("Attente");
         $new_command->setMontant($montant);
         $user->addCommande($new_command);
         foreach ($user->getPanier()->getPanierProduits() as $panierProd){

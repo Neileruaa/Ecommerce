@@ -18,8 +18,15 @@
         </div>
     </div>
     {% for command in commands if commands is not empty%}
-        {#TODO: mettre la couleur en fonction de l'état#}
-        <div class="alert alert-warning">
+        <div class="alert
+            {% if command.etat == 'Attente' %}
+                alert-warning
+            {% elseif command.etat == 'Validee' %}
+                alert-success
+            {% elseif command.etat == 'Annulee' %}
+                alert-success
+            {% endif %}
+        ">
             <strong>Commande : {{ command.id }}</strong>
         </div>
     {% else %}
