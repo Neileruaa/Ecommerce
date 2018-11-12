@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Form\CommandType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Form\CommentType;
@@ -20,18 +21,27 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CommandController extends AbstractController {
 	/**
+	 * @Route("/commands/show", name="Command.show")
 	 * @Route("/commands/show/{id}", name="Command.show")
 	 * @param ObjectManager $manager
+	 * @param int $id
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function showCommand(ObjectManager $manager) {
+	public function showCommand(ObjectManager $manager, $id=0, Request $request) {
 		if ($this->getUser()->getRoles() == ['ROLE_ADMIN'])
 			$commands = $manager->getRepository(Commande::class)->findAll();
 		else
 			$commands = $this->getUser()->getCommandes();
-
-
-
+		if ($id!=0) {
+			$command = $manager->getRepository(Commande::class)->find($id);
+			if (isset($_POST['submit'])) {
+				if (isset($_POST['etat']) && $_POST['etat'] != 'default') {
+					$command->setEtat($_POST['etat']);
+					$manager->persist($command);
+					$manager->flush();
+				}
+			}
+		}
 		return $this->render('command/Command_show.html.twig',[
 			'commands' => $commands
 		]);

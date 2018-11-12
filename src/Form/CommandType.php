@@ -12,10 +12,7 @@ class CommandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateCommande')
-            ->add('montant')
             ->add('etat')
-            ->add('user')
         ;
     }
 

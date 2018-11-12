@@ -1,2 +1,18 @@
 {#Utilisé dans command_show#}
-
+{% if is_granted('ROLE_ADMIN') %}
+<form action="{{ path('Command.show', {id: command.id}) }}" method="post">
+    <div class="form-row align-items-center">
+        <div class="col-auto my-1">
+            <select name="etat" id="etat" class="custom-select mr-sm-2">
+                <option value="default" selected>Choisir Etat...</option>
+                <option value="Attente" {% if command.etat == 'Attente' %}selected{% endif %}>Attente</option>
+                <option value="Validee" {% if command.etat == 'Validee' %}selected{% endif %}>Validee</option>
+                <option value="Annulee" {% if command.etat == 'Annulee' %}selected{% endif %}>Annulee</option>
+            </select>
+        </div>
+        <div class="col-auto my-1">
+            <button type="submit" class="btn btn-primary" name="submit">Valider</button>
+        </div>
+    </div>
+</form>
+{% endif %}
