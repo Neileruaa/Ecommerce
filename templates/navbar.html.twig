@@ -7,7 +7,7 @@
         <ul class="navbar-nav mr-auto">
             <a class="nav-item nav-link " href="{{ path('Home.index') }}">Accueil</a>
             <a class="nav-item nav-link" href="{{ path('Produit.show') }}">Produits</a>
-            <a class="nav-item nav-link" href="#">TODO</a>
+            <a class="nav-item nav-link" href="{{ path('Command.show') }}">Commandes</a>
             {% if not app.user %}
                 <a class="nav-item nav-link" href="{{ path('Security.login') }}">Connexion</a>
             {% else %}
