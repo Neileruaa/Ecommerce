@@ -20,22 +20,33 @@ class Commande
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commandes")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PanierProduits", mappedBy="commande")
+     */
+    private $PanierCommande;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date;
+    private $dateCommande;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Produit")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
-    private $listeProduits;
+    private $montant;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $etat;
 
     public function __construct()
     {
-        $this->listeProduits = new ArrayCollection();
+        $this->PanierCommande = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,52 +54,81 @@ class Commande
         return $this->id;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * @return Collection|Produit[]
+     * @return Collection|PanierProduits[]
      */
-    public function getListeProduits(): Collection
+    public function getPanierCommande(): Collection
     {
-        return $this->listeProduits;
+        return $this->PanierCommande;
     }
 
-    public function addListeProduit(Produit $listeProduit): self
+    public function addPanierCommande(PanierProduits $panierCommande): self
     {
-        if (!$this->listeProduits->contains($listeProduit)) {
-            $this->listeProduits[] = $listeProduit;
+        if (!$this->PanierCommande->contains($panierCommande)) {
+            $this->PanierCommande[] = $panierCommande;
+            $panierCommande->setCommande($this);
         }
 
         return $this;
     }
 
-    public function removeListeProduit(Produit $listeProduit): self
+    public function removePanierCommande(PanierProduits $panierCommande): self
     {
-        if ($this->listeProduits->contains($listeProduit)) {
-            $this->listeProduits->removeElement($listeProduit);
+        if ($this->PanierCommande->contains($panierCommande)) {
+            $this->PanierCommande->removeElement($panierCommande);
+            // set the owning side to null (unless already changed)
+            if ($panierCommande->getCommande() === $this) {
+                $panierCommande->setCommande(null);
+            }
         }
+
+        return $this;
+    }
+
+    public function getDateCommande(): ?\DateTimeInterface
+    {
+        return $this->dateCommande;
+    }
+
+    public function setDateCommande(\DateTimeInterface $dateCommande): self
+    {
+        $this->dateCommande = $dateCommande;
+
+        return $this;
+    }
+
+    public function getMontant()
+    {
+        return $this->montant;
+    }
+
+    public function setMontant($montant): self
+    {
+        $this->montant = $montant;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

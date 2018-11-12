@@ -59,11 +59,6 @@ class User implements UserInterface, \Serializable
     private $active;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="user_id")
-     */
-    private $commandes;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Panier", mappedBy="user_id", cascade={"persist", "remove"})
      */
     private $panier;
@@ -72,6 +67,11 @@ class User implements UserInterface, \Serializable
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
      */
     private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $commandes;
 
     public function __construct()
     {
@@ -141,37 +141,6 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    /**
-     * @return Collection|Commande[]
-     */
-    public function getCommandes(): Collection
-    {
-        return $this->commandes;
-    }
-
-    public function addCommande(Commande $commande): self
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes[] = $commande;
-            $commande->setUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): self
-    {
-        if ($this->commandes->contains($commande)) {
-            $this->commandes->removeElement($commande);
-            // set the owning side to null (unless already changed)
-            if ($commande->getUserId() === $this) {
-                $commande->setUserId(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getPanier(): ?Panier
     {
         return $this->panier;
@@ -192,11 +161,11 @@ class User implements UserInterface, \Serializable
     //Méthodes que l'on doit implémenter avec userinterface
 
 	public function getRoles() {
-               		if ($this->roles)
-               			return [$this->roles];
-               		else
-               			return ['ROLE_USER'];
-               	}
+                           		if ($this->roles)
+                           			return [$this->roles];
+                           		else
+                           			return ['ROLE_USER'];
+                           	}
 
 	public function getSalt() {}
 
@@ -209,14 +178,14 @@ class User implements UserInterface, \Serializable
 	 * @since 5.1.0
 	 */
 	public function serialize() {
-               		return serialize([
-               			$this->id,
-               			$this->userName,
-               			$this->email,
-               			$this->password,
-               			$this->roles
-               		]);
-               	}
+                           		return serialize([
+                           			$this->id,
+                           			$this->userName,
+                           			$this->email,
+                           			$this->password,
+                           			$this->roles
+                           		]);
+                           	}
 
 	/**
 	 * Constructs the object
@@ -228,14 +197,14 @@ class User implements UserInterface, \Serializable
 	 * @since 5.1.0
 	 */
 	public function unserialize($serialized) {
-               		list(
-               			$this->id,
-               			$this->userName,
-               			$this->email,
-               			$this->password,
-               			$this->roles
-               			) = unserialize($serialized,['allowed_classes'=>false]);
-               	}
+                           		list(
+                           			$this->id,
+                           			$this->userName,
+                           			$this->email,
+                           			$this->password,
+                           			$this->roles
+                           			) = unserialize($serialized,['allowed_classes'=>false]);
+                           	}
 
     /**
      * @return Collection|Comment[]
@@ -262,6 +231,37 @@ class User implements UserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getUser() === $this) {
+                $commande->setUser(null);
             }
         }
 
