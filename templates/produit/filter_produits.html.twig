@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Filtre{% endblock %}
+
+{% block header %}
+<h1>Voir produits par catégorie</h1>
+{% endblock %}
+
+{% block body %}
+   <form action="{{ path('Produit.showByType') }}" method="post" class="mb-3 justify-content-center form-inline text-center">
+        <div class="bd-example">
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="allTypes" name="typeCategorie" class="custom-control-input" checked="checked" value="-1">
+                <label class="custom-control-label" for="allTypes"><strong>Tous</strong></label>
+            </div>
+            {% for categorie in typesProduits %}
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="{{ categorie.id }}" value="{{ categorie.id }}" name="typeCategorie" class="custom-control-input">
+                    <label class="custom-control-label" for="{{ categorie.id }}"><strong>{{ categorie.libelle }}</strong></label>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" name="submit" class="btn btn-info">Valider</button>
+    </form>
+
+    <div class="row" style="margin-bottom: 5em;">
+        <div class="col-12 col-sm-12 col-lg-12">
+            <div class="table-responsive">
+                <table class="table">
+                    {% if produits is not empty %}
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col" class="text-center">Photo</th>
+                            <th scope="col" class="text-center">Type de Produit</th>
+                            <th scope="col" class="text-center">Stock</th>
+                        </tr>
+                        </thead>
+                    {% else %}
+                        <tr><th colspan="7" class="text-center">Pas de produit disponile</th></tr>
+                    {% endif %}
+                    <tbody>
+                    {% for produit in produits %}
+                        <tr>
+                            <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
+                            <td>{{ produit.prix }}</td>
+                            <td class="text-center"><img class="img-fluid"style="width: 90px; height: 90px;" src="{{ asset('uploads/photos/'~produit.photo) | default('Images/products.jpg') }}" alt="Pas de photo du produit" /></td>
+                            <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
+                            <td class="text-center">{{ produit.stock }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

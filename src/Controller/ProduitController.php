@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Produit;
+use App\Entity\TypeProduit;
 use App\Form\CommentType;
 use App\Form\ProduitType;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -72,6 +73,7 @@ class ProduitController extends AbstractController
 	 * @isGranted("ROLE_ADMIN")
 	 * @param ObjectManager $manager
 	 * @param Request $request
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function addProduit(ObjectManager $manager, Request $request) {
 		$produit = new Produit();
@@ -107,5 +109,37 @@ class ProduitController extends AbstractController
 
     private function generateUniqueFilename(){
 		return md5(uniqid());
+    }
+
+	/**
+	 * @Route("/produits/show/by/type", name="Produit.showByType")
+	 * @param ObjectManager $manager
+	 * @param Request $request
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+    public function showProduitsByType(ObjectManager $manager, Request $request){
+		$typesProduits = $manager->getRepository(TypeProduit::class)->findAll();
+		$produits = $manager->getRepository(Produit::class)->findAll();
+		$produits_to_show = $produits;
+	    if (isset($_POST['submit'])) {
+	    	$produits_to_show=array();
+		    if (isset($_POST['typeCategorie'])) {
+			    $categorie_actuelle = $_POST['typeCategorie'];
+			    if ($categorie_actuelle != -1) {
+			    	$cat = $manager->getRepository(TypeProduit::class)->find($categorie_actuelle);
+			        foreach ($produits as $produit){
+			        	if ($produit->getTypeProduitId()->getId() == $cat->getId()){
+			        		$produits_to_show[] = $produit;
+				        }
+			        }
+			    }else{
+			    	$produits_to_show = $produits;
+			    }
+		    }
+	    }
+	    return $this->render('produit/filter_produits.html.twig', [
+			'typesProduits' => $typesProduits,
+		    'produits' =>$produits_to_show
+		]);
     }
 }
