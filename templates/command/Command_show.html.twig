@@ -28,7 +28,7 @@
                 alert-success
             {% endif %}
         ">
-            <strong><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">Commande : {{ command.id }}</a></strong>
+            <strong><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#T{{ command.id }}">Commande : {{ command.id }}</a></strong>
             <p class="float-right text-secondary">{{ command.dateCommande|date('m-d-Y') }}</p>
         </div>
         {% include 'command/command_option.html.twig' %}
