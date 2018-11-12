@@ -77,4 +77,18 @@ class PanierController extends Controller{
         }
 		return $this->redirectToRoute("Produit.show");
 	}
+
+    /**
+     * @Route("/panier/vider",name="panier.vider")
+     */
+	public function viderPanier(){
+	    $em=$this->getDoctrine()->getManager();
+	    $user=$this->getUser();
+        foreach ($user->getPanier()->getPanierProduits() as $panierProd){
+            $user->getPanier()->removePanierProduit($panierProd);
+        }
+        $em->persist($user);
+        $em->flush();
+        return $this->redirectToRoute("Produit.show");
+    }
 }
