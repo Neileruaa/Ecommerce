@@ -25,6 +25,7 @@
                         {% endif %}
                         <tbody>
                         {% for produit in produits %}
+                            {% if produit.stock>0 %}
                             <tr>
                                 <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
                                 <td>{{ produit.prix }}</td>
@@ -38,6 +39,7 @@
                                     <td class="text-center"><a href="{{ path('Produit.remove', {'id': produit.id}) }}"><span class="icono-cross" style="color: #988686;"></span></a></td>
                                 {% endif %}
                             </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
