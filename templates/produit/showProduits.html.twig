@@ -4,7 +4,7 @@
 {% block body %}
         {% if is_granted('ROLE_ADMIN') %}
             {% for produit in produits %}
-                {% if produit.stock <10 %}
+                {% if produit.stock <=10 %}
                     <div class="alert alert-danger" role="alert">
                         <tr class="table">
                             <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
