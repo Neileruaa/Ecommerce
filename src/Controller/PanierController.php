@@ -101,4 +101,40 @@ class PanierController extends Controller{
         $em->flush();
         return $this->redirectToRoute("Produit.show");
     }
+
+	/**
+	 * @Route("/Panier/set/quantity/{id}",name="Panier.setQuantityOfItem", methods={"POST"})
+	 * @param ObjectManager $manager
+	 * @param Produit $produit
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function setQuantityOfItem(ObjectManager $manager, Produit $produit){
+		$panier=$this->getUser()->getPanier();
+		$quantityProduit = $_POST['quantityProduit'];
+		foreach ($panier->getPanierProduits() as $new_produit){
+			if ($new_produit->getProduit()->getId()==$produit->getId()){
+				if ($produit->getStock()>0 && $produit->getStock()> $quantityProduit){
+					$new_produit->setQuantity($quantityProduit);
+					$produit->setStock($produit->getStock()-$quantityProduit);
+					//$panier->addPanierProduit($new_produit);
+					$manager->persist($new_produit);
+					$manager->flush();
+					return $this->redirectToRoute("Produit.show");
+				}
+				return $this->redirectToRoute("Produit.show");
+			}
+		}
+		if ($produit->getStock()>0 && $produit->getStock()>$quantityProduit){
+			$produit->setStock($produit->getStock()-$quantityProduit);
+			$new_produit=new PanierProduits();
+			$new_produit->setProduit($produit);
+			$new_produit->setPanier($panier);
+			$new_produit->setQuantity($quantityProduit);
+
+			$panier->addPanierProduit($new_produit);
+			$manager->persist($panier);
+			$manager->flush();
+		}
+		return $this->redirectToRoute("Produit.show");
+	}
 }

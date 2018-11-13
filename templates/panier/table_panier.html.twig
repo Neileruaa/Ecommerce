@@ -22,7 +22,18 @@
                     <td>{{ produit.produit.prix }} €</td>
                     <td class="text-center"><img class="img-fluid" style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.produit.photo) }}" alt="Pas de photo du produit" /></td>
                     <td class="text-center">{{ produit.produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
-                    <td class="text-center">{{ produit.quantity }}</td>
+                    <td class="">
+                        {#TODO:Afficher les erreurs#}
+                        <form action="{{ path('Panier.setQuantityOfItem', {id:produit.produit.id}) }}" method="post" class="form-inline justify-content-center">
+                            <div class="input-group col-sm-7">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Quantité</div>
+                                </div>
+                                <input type="text" class="form-control" name="quantityProduit" value="{{ produit.quantity }}">
+                                <button type="submit" class="btn btn-info">Valider</button>
+                            </div>
+                        </form>
+                    </td>
                     <td class="text-center">{{ produit.quantity*produit.produit.prix }}</td>
                     {% if is_granted('ROLE_USER') %}
                         <td class="text-center">
