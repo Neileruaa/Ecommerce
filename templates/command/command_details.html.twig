@@ -23,7 +23,7 @@
                     {% for produit in panier.panierProduits %}
                     <tr>
                         <th scope="row">{{ produit.produit.nom }}</th>
-                        <td>{{ produit.produit.prix }}</td>
+                        <td>{{ produit.produit.prix }} €</td>
                         <td class="text-center"><img class="img-fluid"style="width: 100px; height: 100px;" src="{{ asset('Images/'~produit.produit.photo) }}" alt="Pas de photo du produit" /></td>
                         <td class="text-center">{{ produit.produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
                         <td class="text-center">{{ produit  .getQuantity() }}</td>
@@ -34,7 +34,7 @@
                     <tfoot>
                     <tr>
                         <th colspan="5">Montant de la commande :</th>
-                        <th class="text-center">{{ montant }} </th>
+                        <th class="text-center">{{ montant }} €</th>
                     </tr>
                     </tfoot>
                 </table>
