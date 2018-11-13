@@ -3,6 +3,27 @@
 
 {% block body %}
         {% if is_granted('ROLE_ADMIN') %}
+            {% for produit in produits %}
+                {% if produit.stock <10 %}
+                    <div class="alert alert-danger" role="alert">
+                        <tr class="table">
+                            <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
+                            <td>{{ produit.prix }} €</td>
+                            <br><td class="text-center" {% if produit.stock <=10 %} style="color: #cc0000;"{% endif %}>{% if produit.stock <=10 and produit.stock>0 %}Il ne reste plus que {{ produit.stock }} exemplaires ! {% elseif produit.stock==0 %} Ce produit n'est plus disponible ! {% else %} {{ produit.stock }} {% endif %}</td>
+                            {% if is_granted('ROLE_USER') and produit.stock>0 %}
+                                <td class="text-center"><a href="{{ path('Panier.addItem', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #21ff94;"></span></a></td>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td class="text-center">
+                                    <a href="{{ path('produit.incremente', {id: produit.id}) }}"><span class="icono-plus" style="color: #21ff94;"></span></a>
+                                    <a href="{{ path('produit.decremente', {id: produit.id}) }}"><span class="icono-cross" style="color: #cc0000;"></span></a>
+                                    <a href="{{ path('Produit.remove', {id: produit.id}) }}"><span class="icono-trash" style="color: #cc0000;"></span></a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    </div>
+                {% endif %}
+            {% endfor %}
         <a class="btn btn-info m-1" href="{{ path('Produit.add') }}">Ajouter un produit</a>
         {% endif %}
         <div class="row" style="margin-bottom: 5em;">
@@ -25,14 +46,13 @@
                         {% endif %}
                         <tbody>
                         {% for produit in produits %}
-                            {% if produit.stock>0%}
                             <tr>
                                 <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
-                                <td>{{ produit.prix }}</td>
+                                <td>{{ produit.prix }} €</td>
                                 <td class="text-center"><img class="img-fluid"style="width: 90px; height: 90px;" src="{{ asset('uploads/photos/'~produit.photo) | default('Images/products.jpg') }}" alt="Pas de photo du produit" /></td>
                                 <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
-                                <td class="text-center" {% if produit.stock <=10 %} style="color: #cc0000;"{% endif %}>{{ produit.stock }}</td>
-                                {% if is_granted('ROLE_USER') %}
+                                <td class="text-center" {% if produit.stock <=10 %} style="color: #cc0000;"{% endif %}>{% if produit.stock <=10 and produit.stock>0 %}Il ne reste plus que {{ produit.stock }} exemplaires ! {% elseif produit.stock==0 %} Ce produit n'est plus disponible ! {% else %} {{ produit.stock }} {% endif %}</td>
+                                {% if is_granted('ROLE_USER') and produit.stock>0 %}
                                     <td class="text-center"><a href="{{ path('Panier.addItem', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #21ff94;"></span></a></td>
                                 {% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
@@ -43,25 +63,6 @@
                                     </td>
                                 {% endif %}
                             </tr>
-                                {% elseif produit.stock<=0 and is_granted('ROLE_ADMIN') %}
-                                    <tr>
-                                        <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
-                                        <td>{{ produit.prix }}</td>
-                                        <td class="text-center"><img class="img-fluid"style="width: 90px; height: 90px;" src="{{ asset('uploads/photos/'~produit.photo) | default('Images/products.jpg') }}" alt="Pas de photo du produit" /></td>
-                                        <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
-                                        <td class="text-center" {% if produit.stock <=10 %} style="color: #cc0000;"{% endif %}>{{ produit.stock }}</td>
-                                        {% if is_granted('ROLE_USER') %}
-                                            <td class="text-center"><a href="{{ path('Panier.addItem', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #21ff94;"></span></a></td>
-                                        {% endif %}
-                                        {% if is_granted('ROLE_ADMIN') %}
-                                            <td class="text-center">
-                                                <a href="{{ path('produit.incremente', {id: produit.id}) }}"><span class="icono-plus" style="color: #21ff94;"></span></a>
-                                                <a href="{{ path('produit.decremente', {id: produit.id}) }}"><span class="icono-cross" style="color: #cc0000;"></span></a>
-                                                <a href="{{ path('Produit.remove', {id: produit.id}) }}"><span class="icono-trash" style="color: #cc0000;"></span></a>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
