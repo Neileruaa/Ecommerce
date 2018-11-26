@@ -51,6 +51,9 @@
                             </div>
                         {% endfor %}
         </div>
+    <div class="pagination">
+        {{ knp_pagination_render(produits) }}
+    </div>
     <div class="row">
         {#Affichage du panier si l'utilisateur est un client #}
         {% if is_granted('ROLE_USER') %}

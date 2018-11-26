@@ -9,6 +9,7 @@ use App\Entity\TypeProduit;
 use App\Form\CommentType;
 use App\Form\ProduitType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,8 +29,10 @@ class ProduitController extends AbstractController
     /**
      * @Route("/produits/show",name="Produit.show")
      */
-    public function showProduits(){
-        $produits=$this->getDoctrine()->getRepository(Produit::class)->findAll();
+    public function showProduits(PaginatorInterface$paginator, Request $request){
+        $produits=$paginator->paginate($this->getDoctrine()->getRepository(Produit::class)->findAll(),
+        $request->query->getInt('page', 1),9
+        );
 		$panier = $this->getUser()->getPanier();
         $montant=0;
         foreach ($panier->getPanierProduits() as $produit){
