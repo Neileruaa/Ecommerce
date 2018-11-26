@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -128,7 +127,7 @@ class ProduitController extends AbstractController
 	 * @param Request $request
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-    public function showProduitsByType(ObjectManager $manager, Request $request, SessionInterface $session){
+    public function showProduitsByType(ObjectManager $manager, Request $request){
 		$typesProduits = $manager->getRepository(TypeProduit::class)->findAll();
 		$produits = $manager->getRepository(Produit::class)->findAll();
 		$produits_to_show = $produits;
@@ -138,8 +137,6 @@ class ProduitController extends AbstractController
 			    $categorie_actuelle = $_POST['typeCategorie'];
 			    if ($categorie_actuelle != -1) {
 			    	$cat = $manager->getRepository(TypeProduit::class)->find($categorie_actuelle);
-			    	$session->clear();
-			    	$session->set('categorie', $categorie_actuelle);
 			        foreach ($produits as $produit){
 			        	if ($produit->getTypeProduitId()->getId() == $cat->getId()){
 			        		$produits_to_show[] = $produit;
@@ -147,8 +144,6 @@ class ProduitController extends AbstractController
 			        }
 			    }else{
 			    	$produits_to_show = $produits;
-				    $session->clear();
-				    $session->set('categorie', 'All');
 			    }
 		    }
 	    }
