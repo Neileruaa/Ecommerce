@@ -26,52 +26,36 @@
             {% endfor %}
         <a class="btn btn-info m-1" href="{{ path('Produit.add') }}">Ajouter un produit</a>
         {% endif %}
-        <div class="row" style="margin-bottom: 5em;">
-            <div class="col-12 col-sm-12 col-lg-12">
-                <div class="table-responsive">
-                    <table class="table">
-                        {% if produits is not empty %}
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Nom</th>
-                                    <th scope="col">Prix</th>
-                                    <th scope="col" class="text-center">Photo</th>
-                                    <th scope="col" class="text-center">Type de Produit</th>
-                                    <th scope="col" class="text-center">Stock</th>
-                                    <th scope="col" class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            {% else %}
-                                <tr><th colspan="7" class="text-center">Pas de produit disponile</th></tr>
+        <div class="row text-center" style="margin-bottom: 5em;">
+                        {% if produits is empty %}
+                            <strong>Pas de produit disponible</strong>
                         {% endif %}
-                        <tbody>
                         {% for produit in produits %}
-                            <tr>
-                                <th scope="row"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></th>
-                                <td>{{ produit.prix }} €</td>
-                                <td class="text-center"><img class="img-fluid"style="width: 90px; height: 90px;" src="{{ asset('uploads/photos/'~produit.photo) | default('Images/products.jpg') }}" alt="Pas de photo du produit" /></td>
-                                <td class="text-center">{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</td>
-                                <td class="text-center" {% if produit.stock <=10 %} style="color: #cc0000;"{% endif %}>{% if produit.stock <=10 and produit.stock>0 %}Il ne reste plus que {{ produit.stock }} exemplaires ! {% elseif produit.stock==0 %} Ce produit n'est plus disponible ! {% else %} {{ produit.stock }} {% endif %}</td>
-                                {% if is_granted('ROLE_USER') and produit.stock>0 %}
-                                    <td class="text-center"><a href="{{ path('Panier.addItem', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #21ff94;"></span></a></td>
-                                {% endif %}
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <td class="text-center">
-                                        <a href="{{ path('produit.incremente', {id: produit.id}) }}"><span class="icono-plus" style="color: #21ff94;"></span></a>
-                                        <a href="{{ path('produit.decremente', {id: produit.id}) }}"><span class="icono-cross" style="color: #cc0000;"></span></a>
-                                        <a href="{{ path('Produit.remove', {id: produit.id}) }}"><span class="icono-trash" style="color: #cc0000;"></span></a>
-                                    </td>
-                                {% endif %}
-                            </tr>
+                            <div class="card m-4 mx-auto" style="width: 18rem;">
+                                <img class="card-img-top mx-auto" style="width: 90px; height: 90px" src="{{ asset('uploads/photos/'~produit.photo) | default('Images/products.jpg') }}" alt="Pas de photo du produit" />
+                                <hr>
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{{ path('Produit.viewDetails', {id: produit.id}) }}">{{ produit.nom }}</a></h5>
+                                    <strong>{{ produit.prix }} €</strong></br>
+                                    <strong>{{ produit.getTypeProduitId().libelle | default("Aucun type renseigné")}}</strong></br>
+                                    <p class="card-text"{% if produit.stock <=10 %} style="color: #cc0000;"{% endif %}>{% if produit.stock <=10 and produit.stock>0 %}Il ne reste plus que {{ produit.stock }} exemplaires ! {% elseif produit.stock==0 %} Ce produit n'est plus disponible ! {% else %} {{ produit.stock }} {% endif %}</p>
+                                    {% if is_granted('ROLE_USER') and produit.stock>0 %}
+                                        <a href="{{ path('Panier.addItem', {id: produit.id}) }}"><span class="icono-plus" aria-hidden="true" style="color: #21ff94;"></span></a>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                            <a href="{{ path('produit.incremente', {id: produit.id}) }}"><span class="icono-plus" style="color: #21ff94;"></span></a>
+                                            <a href="{{ path('produit.decremente', {id: produit.id}) }}"><span class="icono-cross" style="color: #cc0000;"></span></a>
+                                            <a href="{{ path('Produit.remove', {id: produit.id}) }}"><span class="icono-trash" style="color: #cc0000;"></span></a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {#Affichage du panier si l'utilisateur est un client #}
-                {% if is_granted('ROLE_USER') %}
-                    <h1 class="text-center">Espace Panier</h1>
-                    {% include 'panier/table_panier.html.twig' %}
-                {% endif %}
-            </div>
         </div>
+    <div class="row">
+        {#Affichage du panier si l'utilisateur est un client #}
+        {% if is_granted('ROLE_USER') %}
+            <h1 class="text-center">Espace Panier</h1>
+            {% include 'panier/table_panier.html.twig' %}
+        {% endif %}
+    </div>
 {% endblock %}
