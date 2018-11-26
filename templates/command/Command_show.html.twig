@@ -17,6 +17,7 @@
             <strong>Commande annulée </strong>
         </div>
     </div>
+    <div class="text-center">
     {% for command in commands if commands is not empty%}
         {% include 'command/command_validated_details.html.twig'%}
         {#TODO: mettre le lien du modal sur toute l'alert#}
@@ -29,11 +30,13 @@
                 alert-danger
             {% endif %}
         ">
-            <strong><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#T{{ command.id }}">Commande : {{ command.id }}</a></strong>
-            <p class="float-right text-secondary">{{ command.dateCommande|date('m-d-Y') }}</p>
+            <strong class="float-left"><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#T{{ command.id }}">Commande : {{ command.id }}</a></strong>
+            <p style="display: inline">cient : {{ command.getUser().userName }}</p>
+            <p class="float-right text-secondary">{{ command.dateCommande|date('m-d-Y') }}</p><br>
             {% include 'command/command_option.html.twig' %}
         </div>
     {% else %}
         <p class="text-secondary text-center">Pas encore de commandes</p>
     {% endfor %}
+    </div>
 {% endblock %}
