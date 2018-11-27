@@ -138,6 +138,8 @@ class ProduitController extends AbstractController
 			    $categorie_actuelle = $_POST['typeCategorie'];
 			    if ($categorie_actuelle != -1) {
 			    	$cat = $manager->getRepository(TypeProduit::class)->find($categorie_actuelle);
+				    $session->clear();
+				    $session->set('categorie', $categorie_actuelle);
 			        foreach ($produits as $produit){
 			        	if ($produit->getTypeProduitId()->getId() == $cat->getId()){
 			        		$produits_to_show[] = $produit;
