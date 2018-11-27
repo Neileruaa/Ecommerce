@@ -19,6 +19,20 @@ class PanierRepository extends ServiceEntityRepository
         parent::__construct($registry, Panier::class);
     }
 
+    public function getMontantTotal($id){
+        $entityManager = $this->getEntityManager();
+
+        $qb = $entityManager->createQueryBuilder();
+
+        $qb->select('(pp.quantity)*(prod.prix)')
+            ->from('App\Entity\Panier', 'p')
+            ->join('p.panierProduits', 'pp')
+            ->join('pp.produit', 'prod')
+            ->where('p.id=:id')
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()->getResult();
+    }
     // /**
     //  * @return Panier[] Returns an array of Panier objects
     //  */
