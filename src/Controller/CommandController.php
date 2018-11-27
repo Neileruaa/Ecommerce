@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Panier;
+use App\Entity\PanierProduits;
 use App\Form\CommandType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -55,9 +57,8 @@ class CommandController extends AbstractController {
         $user=$this->getUser();
         $new_command=new Commande();
         $produits=$user->getPanier()->getPanierProduits();
-        $montant=0;
+        $montant=$this->getDoctrine()->getRepository(Panier::class)->getMontantTotal($user->getPanier()->getId());
         foreach ($produits as $produit){
-            $montant=$montant+($produit->getProduit()->getPrix())*($produit->getQuantity());
             $new_command->addPanierCommande($produit);
         }
         $new_command->setUser($user);
@@ -65,7 +66,7 @@ class CommandController extends AbstractController {
         $time->format('H:i:s \O\n d-m-Y');
         $new_command->setDateCommande($time);
         $new_command->setEtat("Attente");
-        $new_command->setMontant($montant);
+        $new_command->setMontant($montant{0}{1});
         $user->addCommande($new_command);
         foreach ($user->getPanier()->getPanierProduits() as $panierProd){
             $user->getPanier()->removePanierProduit($panierProd);
