@@ -9,6 +9,7 @@ use App\Entity\TypeProduit;
 use App\Form\CommentType;
 use App\Form\ProduitType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,14 +30,17 @@ class ProduitController extends AbstractController
     /**
      * @Route("/produits/show",name="Produit.show")
      */
-    public function showProduits(SessionInterface $session){
-    	if ($session->get('categorie')!= 'All'){
-    		dump($session->get('categorie'));
-		    $produits=$this->getDoctrine()->getRepository(Produit::class)->findAllByCategorie($session->get('categorie'));
-	    }else{
-		    $produits=$this->getDoctrine()->getRepository(Produit::class)->findAll();
-	    }
-
+    public function showProduits(SessionInterface $session,PaginatorInterface$paginator, Request $request){
+        if ($session->get('categorie')!= 'All'){
+            dump($session->get('categorie'));
+            $produits=$paginator->paginate($this->getDoctrine()->getRepository(Produit::class)->findAllByCategorie($session->get('categorie')),
+                $request->query->getInt('page', 1),9
+            );
+        }else{
+            $produits=$paginator->paginate($this->getDoctrine()->getRepository(Produit::class)->findAll(),
+                $request->query->getInt('page', 1),9
+            );
+        }
 		$panier = $this->getUser()->getPanier();
         $montant=0;
         foreach ($panier->getPanierProduits() as $produit){
