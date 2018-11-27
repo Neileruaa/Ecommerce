@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Form\UserType;
 use Doctrine\Common\Persistence\ObjectManager;
+use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +40,9 @@ class UserController extends AbstractController
 			$manager->persist($user);
 			$manager->flush();
 			return $this->redirectToRoute('Home.index');
+		}elseif ($form->isSubmitted() && !$form->isValid()){
+			dump($form);
+			die();
 		}
 
         return $this->render('user/edit_user.html.twig', [

@@ -14,8 +14,12 @@
     {{ form_start(form) }}
     {{ form_row(form.userName, {'label': 'Nom d\'utilisateur', 'attr': {'placeholder': 'Nom d\'utilisateur'}}) }}
     {{ form_row(form.email, {'label':'Adresse email', 'attr': {'placeholder': 'Adresse email'}}) }}
-    {{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'placeholder': 'Mot de passe'}}) }}
-    {{ form_end(form) }}
-    <button type="submit" class="btn btn-success">Valider les changements</button>
+	{{ form_row(form.ville, {'label': 'Ville', 'attr': {'placeholder': 'Votre ville'}}) }}
+	{{ form_row(form.codePostal, {'label': 'Code Postal', 'attr': {'placeholder': 'Votre code postal ...'}}) }}
+	{{ form_row(form.adresse, {'label': 'Adresse', 'attr': {'placeholder': 'Votre adresses ...'}}) }}
+	{{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'placeholder': 'Mot de passe'}}) }}
+	{{ form_rest(form) }}
+	<button type="submit" class="btn btn-success">Valider les changements</button>
+	{{ form_end(form) }}
     <a  href="{{ path('User.remove', {id: user.id}) }}" class="btn btn-danger text-right float-right">Supprimer ce profil</a>
 {% endblock %}

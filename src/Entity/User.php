@@ -73,6 +73,21 @@ class User implements UserInterface, \Serializable
      */
     private $commandes;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $codePostal;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -161,11 +176,11 @@ class User implements UserInterface, \Serializable
     //Méthodes que l'on doit implémenter avec userinterface
 
 	public function getRoles() {
-                           		if ($this->roles)
-                           			return [$this->roles];
-                           		else
-                           			return ['ROLE_USER'];
-                           	}
+                                                      		if ($this->roles)
+                                                      			return [$this->roles];
+                                                      		else
+                                                      			return ['ROLE_USER'];
+                                                      	}
 
 	public function getSalt() {}
 
@@ -178,14 +193,14 @@ class User implements UserInterface, \Serializable
 	 * @since 5.1.0
 	 */
 	public function serialize() {
-                           		return serialize([
-                           			$this->id,
-                           			$this->userName,
-                           			$this->email,
-                           			$this->password,
-                           			$this->roles
-                           		]);
-                           	}
+                                                      		return serialize([
+                                                      			$this->id,
+                                                      			$this->userName,
+                                                      			$this->email,
+                                                      			$this->password,
+                                                      			$this->roles
+                                                      		]);
+                                                      	}
 
 	/**
 	 * Constructs the object
@@ -197,14 +212,14 @@ class User implements UserInterface, \Serializable
 	 * @since 5.1.0
 	 */
 	public function unserialize($serialized) {
-                           		list(
-                           			$this->id,
-                           			$this->userName,
-                           			$this->email,
-                           			$this->password,
-                           			$this->roles
-                           			) = unserialize($serialized,['allowed_classes'=>false]);
-                           	}
+                                                      		list(
+                                                      			$this->id,
+                                                      			$this->userName,
+                                                      			$this->email,
+                                                      			$this->password,
+                                                      			$this->roles
+                                                      			) = unserialize($serialized,['allowed_classes'=>false]);
+                                                      	}
 
     /**
      * @return Collection|Comment[]
@@ -264,6 +279,42 @@ class User implements UserInterface, \Serializable
                 $commande->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?int
+    {
+        return $this->codePostal;
+    }
+
+    public function setCodePostal(int $codePostal): self
+    {
+        $this->codePostal = $codePostal;
 
         return $this;
     }
