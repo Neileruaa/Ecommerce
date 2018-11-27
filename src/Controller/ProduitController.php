@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -127,7 +128,7 @@ class ProduitController extends AbstractController
 	 * @param Request $request
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-    public function showProduitsByType(ObjectManager $manager, Request $request){
+    public function showProduitsByType(ObjectManager $manager, Request $request, SessionInterface $session){
 		$typesProduits = $manager->getRepository(TypeProduit::class)->findAll();
 		$produits = $manager->getRepository(Produit::class)->findAll();
 		$produits_to_show = $produits;
@@ -144,6 +145,8 @@ class ProduitController extends AbstractController
 			        }
 			    }else{
 			    	$produits_to_show = $produits;
+				    $session->clear();
+				    $session->set('categorie', 'All');
 			    }
 		    }
 	    }
