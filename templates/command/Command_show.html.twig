@@ -31,7 +31,7 @@
             {% endif %}
         ">
             <strong class="float-left"><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#T{{ command.id }}">Commande : {{ command.id }}</a></strong>
-            <p style="display: inline">cient : {{ command.getUser().userName }}</p>
+            <p style="display: inline">client : {{ command.getUser().userName }}</p>
             <p class="float-right text-secondary">{{ command.dateCommande|date('m-d-Y') }}</p><br>
             {% include 'command/command_option.html.twig' %}
         </div>
